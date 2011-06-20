@@ -1,0 +1,6 @@
+Started by Rishi Mukhopadhyay
+
+This directory contains checkersGame.rb, test_checkersGame.rb and doc/.  
+checkersGame implements a simple checkers game class which is documented in doc/index.html (generated using RDoc).  test_checkersGame.rb contains unit tests using test/unit.  
+
+Implementation is incomplete.  Presently, only standard non-capture, non-king moves are supported.  
