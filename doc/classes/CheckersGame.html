@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: CheckersGame</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">CheckersGame</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/checkersGame_rb.html">
+                checkersGame.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Implements a game of checkers. Attribute whose_turn is used to determine
+whose turn it currently is in the game. Method <a
+href="CheckersGame.html#M000004">CheckersGame#move</a> requires the
+coordinates of the current location of the piece you want to <a
+href="CheckersGame.html#M000004">move</a> and the coordinates (as a string)
+of the location you want to <a href="CheckersGame.html#M000004">move</a> it
+to. The labels of the rows and columns are the keys of the dictionaries
+CheckersGame::ROW_LOOKUP and CheckersGame::COLUMN_LOOKUP. They are
+presently set so that rows are labelled from a to h going away from the
+black player and from 1 to 8 from left to right. On initialization, the
+board looks like:
+</p>
+<pre>
+         +---+---+---+---+---+---+---+---+
+       h |   | r |   | r |   | r |   | r |
+         +---+---+---+---+---+---+---+---+
+       g | r |   | r |   | r |   | r |   |
+         +---+---+---+---+---+---+---+---+
+       f |   | r |   | r |   | r |   | r |
+         +---+---+---+---+---+---+---+---+
+       e | . |   | . |   | . |   | . |   |
+         +---+---+---+---+---+---+---+---+
+       d |   | . |   | . |   | . |   | . |
+         +---+---+---+---+---+---+---+---+
+       c | b |   | b |   | b |   | b |   |
+         +---+---+---+---+---+---+---+---+
+       b |   | b |   | b |   | b |   | b |
+         +---+---+---+---+---+---+---+---+
+       a | b |   | b |   | b |   | b |   |
+         +---+---+---+---+---+---+---+---+
+           1   2   3   4   5   6   7   8
+</pre>
+<p>
+and it is black&#8216;s turn. This representation of the checkers board can
+be obtained by calling <a
+href="CheckersGame.html#M000002">CheckersGame#to_s</a>.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000003">[]</a>&nbsp;&nbsp;
+      <a href="#M000004">move</a>&nbsp;&nbsp;
+      <a href="#M000001">new</a>&nbsp;&nbsp;
+      <a href="#M000002">to_s</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Class <a href="CheckersGame/BlackSquare.html" class="link">CheckersGame::BlackSquare</a><br />
+
+    </div>
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">BOARD_SIZE</td>
+          <td>=</td>
+          <td class="context-item-value">8</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Number of squares on each side of the board
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">NUM_INIT_ROWS</td>
+          <td>=</td>
+          <td class="context-item-value">3</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Number of rows initially occupied with pieces
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">ROW_LOOKUP</td>
+          <td>=</td>
+          <td class="context-item-value">{'a'=&gt;0,'b'=&gt;1,'c'=&gt;2,'d'=&gt;3,'e'=&gt;4,'f'=&gt;5,'g'=&gt;6,'h'=&gt;7}</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Symbols used to index the rows of the board
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">COLUMN_LOOKUP</td>
+          <td>=</td>
+          <td class="context-item-value">{'1'=&gt;0,'2'=&gt;1,'3'=&gt;2,'4'=&gt;3,'5'=&gt;4,'6'=&gt;5,'7'=&gt;6,'8'=&gt;7}</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Symbols used to index the columns of the board
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">FROM_COORD_OUT</td>
+          <td>=</td>
+          <td class="context-item-value">2**0</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Error codes for method <a href="CheckersGame.html#M000004">move</a>
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">FROM_COORD_RED</td>
+          <td>=</td>
+          <td class="context-item-value">2**1</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">TO_COORD_OUT</td>
+          <td>=</td>
+          <td class="context-item-value">2**2</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">TO_COORD_RED</td>
+          <td>=</td>
+          <td class="context-item-value">2**3</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">WRONG_COLOR</td>
+          <td>=</td>
+          <td class="context-item-value">2**4</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">TO_COORD_OCCUPIED</td>
+          <td>=</td>
+          <td class="context-item-value">2**5</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">TO_COORD_UNREACHABLE</td>
+          <td>=</td>
+          <td class="context-item-value">2**6</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">whose_turn</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+Returns CheckersGame::BlackSquare::RED or CheckersGame::BlackSquare::BLACK
+depending on whose turn it is.
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000001" class="method-detail">
+        <a name="M000001"></a>
+
+        <div class="method-heading">
+          <a href="CheckersGame.src/M000001.html" target="Code" class="method-signature"
+            onclick="popupCode('CheckersGame.src/M000001.html');return false;">
+          <span class="method-name">new</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Create a <a href="CheckersGame.html#M000001">new</a> checkers game. Black
+goes first.
+</p>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000003" class="method-detail">
+        <a name="M000003"></a>
+
+        <div class="method-heading">
+          <a href="CheckersGame.src/M000003.html" target="Code" class="method-signature"
+            onclick="popupCode('CheckersGame.src/M000003.html');return false;">
+          <span class="method-name">[]</span><span class="method-args">(row,column)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a copy of the <a
+href="CheckersGame/BlackSquare.html">CheckersGame::BlackSquare</a> object
+that is at the specified row and column of the board. <em>row</em> and
+<em>column</em> are single letter strings from the sets
+CheckersGame::ROW_LOOKUP.keys and CheckersGame::COLUMN_LOOKUP.keys
+(presently, a-h 1-8 respectively). Returns nil for unplayable (red)
+squares. Raises IndexError if index is invalid.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000004" class="method-detail">
+        <a name="M000004"></a>
+
+        <div class="method-heading">
+          <a href="CheckersGame.src/M000004.html" target="Code" class="method-signature"
+            onclick="popupCode('CheckersGame.src/M000004.html');return false;">
+          <span class="method-name">move</span><span class="method-args">(from,to)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+from and to are strings where the first letter is a row and the second is a
+column. from specifies which piece to <a
+href="CheckersGame.html#M000004">move</a> and to specifies where to <a
+href="CheckersGame.html#M000004">move</a> it if the <a
+href="CheckersGame.html#M000004">move</a> is legal, the game state is
+changed accordingly and the method returns 0. For example:
+</p>
+<pre>
+      my_game=CheckersGame.new
+      my_game.move('c3','d4')
+</pre>
+<p>
+Changes the game state from
+</p>
+<pre>
+        +---+---+---+---+---+---+---+---+
+      h |   | r |   | r |   | r |   | r |
+        +---+---+---+---+---+---+---+---+
+      g | r |   | r |   | r |   | r |   |
+        +---+---+---+---+---+---+---+---+
+      f |   | r |   | r |   | r |   | r |
+        +---+---+---+---+---+---+---+---+
+      e | . |   | . |   | . |   | . |   |
+        +---+---+---+---+---+---+---+---+
+      d |   | . |   | . |   | . |   | . |
+        +---+---+---+---+---+---+---+---+
+      c | b |   | b |   | b |   | b |   |
+        +---+---+---+---+---+---+---+---+
+      b |   | b |   | b |   | b |   | b |
+        +---+---+---+---+---+---+---+---+
+      a | b |   | b |   | b |   | b |   |
+        +---+---+---+---+---+---+---+---+
+          1   2   3   4   5   6   7   8
+</pre>
+<p>
+To
+</p>
+<pre>
+        +---+---+---+---+---+---+---+---+
+      h |   | r |   | r |   | r |   | r |
+        +---+---+---+---+---+---+---+---+
+      g | r |   | r |   | r |   | r |   |
+        +---+---+---+---+---+---+---+---+
+      f |   | r |   | r |   | r |   | r |
+        +---+---+---+---+---+---+---+---+
+      e | . |   | . |   | . |   | . |   |
+        +---+---+---+---+---+---+---+---+
+      d |   | . |   | b |   | . |   | . |
+        +---+---+---+---+---+---+---+---+
+      c | b |   | . |   | b |   | b |   |
+        +---+---+---+---+---+---+---+---+
+      b |   | b |   | b |   | b |   | b |
+        +---+---+---+---+---+---+---+---+
+      a | b |   | b |   | b |   | b |   |
+        +---+---+---+---+---+---+---+---+
+          1   2   3   4   5   6   7   8
+      Errors: The return value is the sum of the error values listed below:
+      *1:          From coordinates are out of bounds
+      *2:          From coordinates are not a black square
+      *4:          To coordinates are out of bounds
+      *8:          To coordinates are not a black square
+      *16: From coordinates don't contain current player's piece
+      *32: To coordinates are already occupied
+      *64: To coordinates cannot be moved to
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000002" class="method-detail">
+        <a name="M000002"></a>
+
+        <div class="method-heading">
+          <a href="CheckersGame.src/M000002.html" target="Code" class="method-signature"
+            onclick="popupCode('CheckersGame.src/M000002.html');return false;">
+          <span class="method-name">to_s</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Print out ascii version of game state with rows and columns labelled.
+Output looks something like:
+</p>
+<pre>
+       +---+---+---+---+---+---+---+---+
+     h |   | r |   | r |   | r |   | r |
+       +---+---+---+---+---+---+---+---+
+     g | r |   | r |   | r |   | r |   |
+       +---+---+---+---+---+---+---+---+
+     f |   | r |   | r |   | r |   | r |
+       +---+---+---+---+---+---+---+---+
+     e | . |   | . |   | . |   | . |   |
+       +---+---+---+---+---+---+---+---+
+     d |   | . |   | . |   | . |   | . |
+       +---+---+---+---+---+---+---+---+
+     c | b |   | b |   | b |   | b |   |
+       +---+---+---+---+---+---+---+---+
+     b |   | b |   | b |   | b |   | b |
+       +---+---+---+---+---+---+---+---+
+     a | b |   | b |   | b |   | b |   |
+       +---+---+---+---+---+---+---+---+
+         1   2   3   4   5   6   7   8
+</pre>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

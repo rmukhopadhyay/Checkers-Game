@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (CheckersGame)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File checkersGame.rb, line 44</span>
+        <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>()
+                <span class="ruby-ivar">@gameboard</span>=<span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">BOARD_SIZE</span>,<span class="ruby-keyword kw">nil</span>);
+                <span class="ruby-keyword kw">for</span> <span class="ruby-identifier">i</span> <span class="ruby-keyword kw">in</span> <span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-constant">BOARD_SIZE</span>
+                        <span class="ruby-ivar">@gameboard</span>[<span class="ruby-identifier">i</span>]=<span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">BOARD_SIZE</span>,<span class="ruby-keyword kw">nil</span>);
+                        <span class="ruby-keyword kw">for</span> <span class="ruby-identifier">j</span> <span class="ruby-keyword kw">in</span> <span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-constant">BOARD_SIZE</span>
+                                <span class="ruby-keyword kw">if</span>((<span class="ruby-identifier">i</span><span class="ruby-operator">+</span><span class="ruby-identifier">j</span>)<span class="ruby-operator">%</span><span class="ruby-value">2</span><span class="ruby-operator">==</span><span class="ruby-value">0</span>)      <span class="ruby-comment cmt">#Black (playable) square</span>
+                                        <span class="ruby-keyword kw">if</span>(<span class="ruby-identifier">i</span><span class="ruby-operator">&lt;</span><span class="ruby-constant">NUM_INIT_ROWS</span>)        
+                                                <span class="ruby-comment cmt">#place a black checker</span>
+                                                <span class="ruby-ivar">@gameboard</span>[<span class="ruby-identifier">i</span>][<span class="ruby-identifier">j</span>]=<span class="ruby-constant">BlackSquare</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">BlackSquare</span><span class="ruby-operator">::</span><span class="ruby-constant">BLACK</span>,<span class="ruby-keyword kw">false</span>)
+                                        <span class="ruby-keyword kw">elsif</span>(<span class="ruby-identifier">i</span><span class="ruby-operator">&gt;=</span><span class="ruby-constant">BOARD_SIZE</span><span class="ruby-operator">-</span><span class="ruby-constant">NUM_INIT_ROWS</span>) 
+                                                <span class="ruby-comment cmt">#place a red checker</span>
+                                                <span class="ruby-ivar">@gameboard</span>[<span class="ruby-identifier">i</span>][<span class="ruby-identifier">j</span>]=<span class="ruby-constant">BlackSquare</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">BlackSquare</span><span class="ruby-operator">::</span><span class="ruby-constant">RED</span>,<span class="ruby-keyword kw">false</span>)
+                                        <span class="ruby-keyword kw">else</span>
+                                                <span class="ruby-comment cmt">#Square is legal but unoccupied</span>
+                                                <span class="ruby-ivar">@gameboard</span>[<span class="ruby-identifier">i</span>][<span class="ruby-identifier">j</span>]=<span class="ruby-constant">BlackSquare</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">BlackSquare</span><span class="ruby-operator">::</span><span class="ruby-constant">BLANK</span>,<span class="ruby-keyword kw">false</span>)
+                                        <span class="ruby-keyword kw">end</span>
+                                <span class="ruby-keyword kw">end</span>
+                        <span class="ruby-keyword kw">end</span>
+                <span class="ruby-keyword kw">end</span>           
+                <span class="ruby-comment cmt">#Without loss of generality, black goes first</span>
+                <span class="ruby-ivar">@whose_turn</span>=<span class="ruby-constant">BlackSquare</span><span class="ruby-operator">::</span><span class="ruby-constant">BLACK</span>
+        <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>
