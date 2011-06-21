@@ -129,15 +129,48 @@ class CheckersGame
 			raise IndexError, "#{row+column} is not a valid (row, column) pair.  "
 		end
 	end
+	#Tests if two checkers games are in the same state
+	def ==(other)
+		ROW_LOOKUP.keys.each do |row|
+			COLUMN_LOOKUP.keys.each do |column|
+				if(@gameboard[ROW_LOOKUP[row]][COLUMN_LOOKUP[column]]!=other[row,column])
+					return false
+				end
+			end
+		end
+		return @whose_turn==other.whose_turn
+	end
+	#This removes a piece from the Checker's board.  It is not recomended to do this for any 
+	#reason other than testing.  _row_ and _col_ are valid keys for CheckersGame::ROW_LOOKUP 
+	#and CheckersGame::COLUMN_LOOKUP respectively.  Raises IndexError if the supplied indices 
+	#are invalid or correspond to a red (unplayable) square on the board.  
+	def remove(row,col)
+		place(row,col,BlackSquare::BLANK,false)
+	end
 	
-	#Error codes for method move
-	FROM_COORD_OUT=			2**0
-	FROM_COORD_RED=			2**1
-	TO_COORD_OUT=			2**2
-	TO_COORD_RED=			2**3
-	WRONG_COLOR=			2**4
-	TO_COORD_OCCUPIED=		2**5
-	TO_COORD_UNREACHABLE=	2**6
+	#This places a piece onto the Checker's board.  It is not recomended to do this for any 
+	#reason other than testing.  _row_ and _col_ are valid keys for CheckersGame::ROW_LOOKUP 
+	#and CheckersGame::COLUMN_LOOKUP respectively.  _color_ is one of 
+	#CheckersGame::BlackSquare::RED, CheckersGame::BlackSquare::BLACK or 
+	#CheckersGame::BlackSquare::BLANK.  _kinged_ is true or false depending on if the 
+	#piece is kinged or not.  
+	#Raises IndexError if the supplied indices 
+	#are invalid or correspond to a red (unplayable) square on the board.  
+	def place(row,col,color,kinged)
+		row_number=ROW_LOOKUP[row]
+		column_number=COLUMN_LOOKUP[col]
+		if (row_number && column_number && ((row_number+column_number)%2==0))
+			@gameboard[row_number][column_number]=BlackSquare.new(color,kinged)
+		else
+			raise IndexError
+		end
+		return self
+	end
+	#This changes whose turn it is.  Should not be used except during debugging or testing
+	def toggle_turn
+		@whose_turn=(@whose_turn==BlackSquare::BLACK ? BlackSquare::RED : BlackSquare::BLACK)
+		return self
+	end
 
 	#from and to are strings where the first letter is a row and the 
 	#second is a column.  
@@ -185,14 +218,14 @@ class CheckersGame
 	#	a | b |   | b |   | b |   | b |   | 
 	#	  +---+---+---+---+---+---+---+---+
 	#	    1   2   3   4   5   6   7   8 
-	#	Errors: The return value is the sum of the error values listed below:
-	#	*1:		From coordinates are out of bounds
-	#	*2:		From coordinates are not a black square
-	#	*4:		To coordinates are out of bounds
-	#	*8:		To coordinates are not a black square
-	#	*16:	From coordinates don't contain current player's piece
-	#	*32:	To coordinates are already occupied
-	#	*64:	To coordinates cannot be moved to
+	#	Errors: 
+	#	IndexError:		From coordinates are out of bounds
+	#	IndexError:		From coordinates are not a black square
+	#	IndexError:		To coordinates are out of bounds
+	#	IndexError:		To coordinates are not a black square
+	#	ArgumentError:	From coordinates don't contain current player's piece
+	#	ArgumentError:	To coordinates are already occupied
+	#	ArgumentError:	To coordinates cannot be moved to using a legal, implemented move
 	def move(from,to)
 		#Initialize error state to 0
 		error=0
@@ -202,31 +235,22 @@ class CheckersGame
 		from_column=COLUMN_LOOKUP[from[1..1]]
 		to_row=ROW_LOOKUP[to[0..0]]
 		to_column=COLUMN_LOOKUP[to[1..1]]
-		error+=FROM_COORD_OUT unless from_row && from_column
-		error+=TO_COORD_OUT unless to_row && to_column
 		
-		#No point continuing checks if coordinates are invalid
-		return error unless error==0
+		raise(IndexError, 'Invalid indices for from coordinates') unless from_row && from_column
+		raise(IndexError, 'Invalid indices for to coordinates') unless to_row && to_column
 		
 		#Check that coordinates are a playable (black) square
-		error+=FROM_COORD_RED unless (from_row+from_column)%2==0
-		error+=TO_COORD_RED unless (to_row+to_column)%2==0
+		raise(IndexError, 'from coordinates are unplayable') unless (from_row+from_column)%2==0
+		raise(IndexError, 'to coordinates are unplayable') unless (to_row+to_column)%2==0
 		
-		#No point continuing checks if square(s) is/are unplayable
-		return error unless error==0
 		
 		#Check that From coordinates contain the current player's piece
-		error+=WRONG_COLOR unless (@gameboard[from_row][from_column].color==whose_turn)
+		raise(ArgumentError, 'from coordinates do not contain current player''s piece') \
+			unless (@gameboard[from_row][from_column].color==whose_turn)
 
 		#Check that To coordinates are unoccupied
-		error+=TO_COORD_OCCUPIED unless (@gameboard[to_row][to_column].color==BlackSquare::BLANK)
-		#No point evaluating move legality if we already have errors
-		return error unless error==0
-		
-		#error is incremented by TO_COORD_UNREACHABLE here 
-		#and then decremented by the same once a legal move 
-		#is confirmed in the cases below
-		error+=TO_COORD_UNREACHABLE
+		raise(ArgumentError,'To coordinates are occupied') \
+			unless (@gameboard[to_row][to_column].color==BlackSquare::BLANK)
 		
 		#detect a standard move for non-king pieces: 
 		#up-left or up-right for black
@@ -239,12 +263,11 @@ class CheckersGame
 			@gameboard[from_row][from_column]=BlackSquare.new(BlackSquare::BLANK,false)
 			#toggle the state of whose_turn
 			@whose_turn=(@whose_turn==BlackSquare::BLACK ? BlackSquare::RED : BlackSquare::BLACK)
-			#decrement error
-			error-=TO_COORD_UNREACHABLE
-			return error
+			#Detected Allowed move
+			return self
 		end
-		
-		return error
+		#No rule matching proposed move is found
+		raise(ArgumentError,'Proposed Move is not allowed')
 	end
 	#Stores the state of the black (playable) checkers squares.  
 	#Attribute _color_ is either CheckersGame::BlackSquare::BLACK_, 
@@ -284,6 +307,10 @@ class CheckersGame
 		attr_reader :color
 		#True if the piece is non-blank and a King
 		attr_reader :kinged
+		#Tests for equality of BlackSquare state
+		def ==(other)
+			return (@color==other.color)&&(@kinged==other.kinged)
+		end
 	end
 end
 
