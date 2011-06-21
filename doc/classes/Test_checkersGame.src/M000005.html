@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_remove_and_place (Test_checkersGame)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test_checkersGame.rb, line 82</span>
+        <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_remove_and_place</span>
+                <span class="ruby-identifier">assert_equal</span>(<span class="ruby-constant">CheckersGame</span><span class="ruby-operator">::</span><span class="ruby-constant">BlackSquare</span><span class="ruby-operator">::</span><span class="ruby-constant">BLANK</span>,<span class="ruby-constant">CheckersGame</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">remove</span>(<span class="ruby-value str">'c'</span>,<span class="ruby-value str">'3'</span>)[<span class="ruby-value str">'c'</span>,<span class="ruby-value str">'3'</span>].<span class="ruby-identifier">color</span>)
+                <span class="ruby-identifier">assert_equal</span>(<span class="ruby-constant">CheckersGame</span><span class="ruby-operator">::</span><span class="ruby-constant">BlackSquare</span><span class="ruby-operator">::</span><span class="ruby-constant">RED</span>,\
+                        <span class="ruby-constant">CheckersGame</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">place</span>(<span class="ruby-value str">'c'</span>,<span class="ruby-value str">'3'</span>,<span class="ruby-constant">CheckersGame</span><span class="ruby-operator">::</span><span class="ruby-constant">BlackSquare</span><span class="ruby-operator">::</span><span class="ruby-constant">RED</span>,<span class="ruby-keyword kw">false</span>)[<span class="ruby-value str">'c'</span>,<span class="ruby-value str">'3'</span>].<span class="ruby-identifier">color</span>)
+                <span class="ruby-comment cmt">#test error case</span>
+                <span class="ruby-identifier">assert_raise</span>(<span class="ruby-constant">IndexError</span>){<span class="ruby-constant">CheckersGame</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">remove</span>(<span class="ruby-value str">'c'</span>,<span class="ruby-value str">'*'</span>)}
+                <span class="ruby-identifier">assert_raise</span>(<span class="ruby-constant">IndexError</span>){<span class="ruby-constant">CheckersGame</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">remove</span>(<span class="ruby-value str">'*'</span>,<span class="ruby-value str">'3'</span>)}
+        <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

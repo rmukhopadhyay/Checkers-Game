@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_first_legal_moves (Test_checkersGame)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test_checkersGame.rb, line 90</span>
+        <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_first_legal_moves</span>
+                <span class="ruby-identifier">black_columns</span>=<span class="ruby-node">%w[1 3 5 7]</span>
+                <span class="ruby-identifier">red_columns</span>=<span class="ruby-node">%w[2 4 6 8]</span>
+                <span class="ruby-comment cmt">#Test some initial moves for Black</span>
+                <span class="ruby-keyword kw">for</span> <span class="ruby-identifier">i</span> <span class="ruby-keyword kw">in</span> <span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-value">4</span>
+                        <span class="ruby-identifier">mygame</span>=<span class="ruby-constant">CheckersGame</span>.<span class="ruby-identifier">new</span>
+                        <span class="ruby-identifier">assert_equal</span>(\
+                                <span class="ruby-constant">CheckersGame</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">remove</span>(<span class="ruby-value str">'c'</span>,<span class="ruby-identifier">black_columns</span>[<span class="ruby-identifier">i</span>]).\
+                                <span class="ruby-identifier">place</span>(<span class="ruby-value str">'d'</span>,<span class="ruby-constant">String</span>(<span class="ruby-constant">Integer</span>(<span class="ruby-identifier">black_columns</span>[<span class="ruby-identifier">i</span>])<span class="ruby-operator">+</span><span class="ruby-value">1</span>),\
+                                <span class="ruby-constant">CheckersGame</span><span class="ruby-operator">::</span><span class="ruby-constant">BlackSquare</span><span class="ruby-operator">::</span><span class="ruby-constant">BLACK</span>,<span class="ruby-keyword kw">false</span>).<span class="ruby-identifier">toggle_turn</span>,\
+                                <span class="ruby-identifier">mygame</span>.<span class="ruby-identifier">move</span>(<span class="ruby-value str">'c'</span><span class="ruby-operator">+</span><span class="ruby-identifier">black_columns</span>[<span class="ruby-identifier">i</span>],<span class="ruby-value str">'d'</span><span class="ruby-operator">+</span><span class="ruby-constant">String</span>(<span class="ruby-constant">Integer</span>(<span class="ruby-identifier">black_columns</span>[<span class="ruby-identifier">i</span>])<span class="ruby-operator">+</span><span class="ruby-value">1</span>)))
+                <span class="ruby-keyword kw">end</span>
+                <span class="ruby-comment cmt">#Test some counter moves for Red for one of the black openings</span>
+                <span class="ruby-keyword kw">for</span> <span class="ruby-identifier">i</span> <span class="ruby-keyword kw">in</span> <span class="ruby-value">0</span><span class="ruby-operator">...</span><span class="ruby-value">4</span>
+                        <span class="ruby-identifier">mygame</span>=<span class="ruby-constant">CheckersGame</span>.<span class="ruby-identifier">new</span>
+                        <span class="ruby-identifier">mygame</span>.<span class="ruby-identifier">move</span>(<span class="ruby-value str">'c3'</span>,<span class="ruby-value str">'d4'</span>)
+                        <span class="ruby-comment cmt">#Game now looks like:</span>
+                        <span class="ruby-comment cmt">#  +---+---+---+---+---+---+---+---+</span>
+                        <span class="ruby-comment cmt">#h |   | r |   | r |   | r |   | r | </span>
+                        <span class="ruby-comment cmt">#  +---+---+---+---+---+---+---+---+</span>
+                        <span class="ruby-comment cmt">#g | r |   | r |   | r |   | r |   | </span>
+                        <span class="ruby-comment cmt">#  +---+---+---+---+---+---+---+---+</span>
+                        <span class="ruby-comment cmt">#f |   | r |   | r |   | r |   | r | </span>
+                        <span class="ruby-comment cmt">#  +---+---+---+---+---+---+---+---+</span>
+                        <span class="ruby-comment cmt">#e | . |   | . |   | . |   | . |   | </span>
+                        <span class="ruby-comment cmt">#  +---+---+---+---+---+---+---+---+</span>
+                        <span class="ruby-comment cmt">#d |   | . |   | b |   | . |   | . | </span>
+                        <span class="ruby-comment cmt">#  +---+---+---+---+---+---+---+---+</span>
+                        <span class="ruby-comment cmt">#c | b |   | . |   | b |   | b |   | </span>
+                        <span class="ruby-comment cmt">#  +---+---+---+---+---+---+---+---+</span>
+                        <span class="ruby-comment cmt">#b |   | b |   | b |   | b |   | b | </span>
+                        <span class="ruby-comment cmt">#  +---+---+---+---+---+---+---+---+</span>
+                        <span class="ruby-comment cmt">#a | b |   | b |   | b |   | b |   | </span>
+                        <span class="ruby-comment cmt">#  +---+---+---+---+---+---+---+---+</span>
+                        <span class="ruby-comment cmt">#    1   2   3   4   5   6   7   8 </span>
+
+                        
+                        <span class="ruby-identifier">assert_equal</span>(\
+                                <span class="ruby-constant">CheckersGame</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">move</span>(<span class="ruby-value str">'c3'</span>,<span class="ruby-value str">'d4'</span>).<span class="ruby-identifier">remove</span>(<span class="ruby-value str">'f'</span>,<span class="ruby-identifier">red_columns</span>[<span class="ruby-identifier">i</span>]).\
+                                <span class="ruby-identifier">place</span>(<span class="ruby-value str">'e'</span>,<span class="ruby-constant">String</span>(<span class="ruby-constant">Integer</span>(<span class="ruby-identifier">red_columns</span>[<span class="ruby-identifier">i</span>])<span class="ruby-operator">-</span><span class="ruby-value">1</span>),\
+                                <span class="ruby-constant">CheckersGame</span><span class="ruby-operator">::</span><span class="ruby-constant">BlackSquare</span><span class="ruby-operator">::</span><span class="ruby-constant">RED</span>,<span class="ruby-keyword kw">false</span>).<span class="ruby-identifier">toggle_turn</span>,\
+                                <span class="ruby-identifier">mygame</span>.<span class="ruby-identifier">move</span>(<span class="ruby-value str">'f'</span><span class="ruby-operator">+</span><span class="ruby-identifier">red_columns</span>[<span class="ruby-identifier">i</span>],<span class="ruby-value str">'e'</span><span class="ruby-operator">+</span><span class="ruby-constant">String</span>(<span class="ruby-constant">Integer</span>(<span class="ruby-identifier">red_columns</span>[<span class="ruby-identifier">i</span>])<span class="ruby-operator">-</span><span class="ruby-value">1</span>)))
+                <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

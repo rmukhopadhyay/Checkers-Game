@@ -82,10 +82,10 @@
       <p>
 Implements a game of checkers. Attribute whose_turn is used to determine
 whose turn it currently is in the game. Method <a
-href="CheckersGame.html#M000004">CheckersGame#move</a> requires the
+href="CheckersGame.html#M000008">CheckersGame#move</a> requires the
 coordinates of the current location of the piece you want to <a
-href="CheckersGame.html#M000004">move</a> and the coordinates (as a string)
-of the location you want to <a href="CheckersGame.html#M000004">move</a> it
+href="CheckersGame.html#M000008">move</a> and the coordinates (as a string)
+of the location you want to <a href="CheckersGame.html#M000008">move</a> it
 to. The labels of the rows and columns are the keys of the dictionaries
 CheckersGame::ROW_LOOKUP and CheckersGame::COLUMN_LOOKUP. They are
 presently set so that rows are labelled from a to h going away from the
@@ -127,10 +127,14 @@ href="CheckersGame.html#M000002">CheckersGame#to_s</a>.
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
+      <a href="#M000004">==</a>&nbsp;&nbsp;
       <a href="#M000003">[]</a>&nbsp;&nbsp;
-      <a href="#M000004">move</a>&nbsp;&nbsp;
+      <a href="#M000008">move</a>&nbsp;&nbsp;
       <a href="#M000001">new</a>&nbsp;&nbsp;
+      <a href="#M000006">place</a>&nbsp;&nbsp;
+      <a href="#M000005">remove</a>&nbsp;&nbsp;
       <a href="#M000002">to_s</a>&nbsp;&nbsp;
+      <a href="#M000007">toggle_turn</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -193,46 +197,6 @@ Symbols used to index the columns of the board
 
 </td>
         </tr>
-        <tr class="top-aligned-row context-row">
-          <td class="context-item-name">FROM_COORD_OUT</td>
-          <td>=</td>
-          <td class="context-item-value">2**0</td>
-          <td width="3em">&nbsp;</td>
-          <td class="context-item-desc">
-Error codes for method <a href="CheckersGame.html#M000004">move</a>
-
-</td>
-        </tr>
-        <tr class="top-aligned-row context-row">
-          <td class="context-item-name">FROM_COORD_RED</td>
-          <td>=</td>
-          <td class="context-item-value">2**1</td>
-        </tr>
-        <tr class="top-aligned-row context-row">
-          <td class="context-item-name">TO_COORD_OUT</td>
-          <td>=</td>
-          <td class="context-item-value">2**2</td>
-        </tr>
-        <tr class="top-aligned-row context-row">
-          <td class="context-item-name">TO_COORD_RED</td>
-          <td>=</td>
-          <td class="context-item-value">2**3</td>
-        </tr>
-        <tr class="top-aligned-row context-row">
-          <td class="context-item-name">WRONG_COLOR</td>
-          <td>=</td>
-          <td class="context-item-value">2**4</td>
-        </tr>
-        <tr class="top-aligned-row context-row">
-          <td class="context-item-name">TO_COORD_OCCUPIED</td>
-          <td>=</td>
-          <td class="context-item-value">2**5</td>
-        </tr>
-        <tr class="top-aligned-row context-row">
-          <td class="context-item-name">TO_COORD_UNREACHABLE</td>
-          <td>=</td>
-          <td class="context-item-value">2**6</td>
-        </tr>
         </table>
       </div>
     </div>
@@ -283,6 +247,23 @@ goes first.
 
       <h3 class="section-bar">Public Instance methods</h3>
 
+      <div id="method-M000004" class="method-detail">
+        <a name="M000004"></a>
+
+        <div class="method-heading">
+          <a href="CheckersGame.src/M000004.html" target="Code" class="method-signature"
+            onclick="popupCode('CheckersGame.src/M000004.html');return false;">
+          <span class="method-name">==</span><span class="method-args">(other)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Tests if two checkers games are in the same state
+</p>
+        </div>
+      </div>
+
       <div id="method-M000003" class="method-detail">
         <a name="M000003"></a>
 
@@ -306,12 +287,12 @@ squares. Raises IndexError if index is invalid.
         </div>
       </div>
 
-      <div id="method-M000004" class="method-detail">
-        <a name="M000004"></a>
+      <div id="method-M000008" class="method-detail">
+        <a name="M000008"></a>
 
         <div class="method-heading">
-          <a href="CheckersGame.src/M000004.html" target="Code" class="method-signature"
-            onclick="popupCode('CheckersGame.src/M000004.html');return false;">
+          <a href="CheckersGame.src/M000008.html" target="Code" class="method-signature"
+            onclick="popupCode('CheckersGame.src/M000008.html');return false;">
           <span class="method-name">move</span><span class="method-args">(from,to)</span>
           </a>
         </div>
@@ -320,9 +301,9 @@ squares. Raises IndexError if index is invalid.
           <p>
 from and to are strings where the first letter is a row and the second is a
 column. from specifies which piece to <a
-href="CheckersGame.html#M000004">move</a> and to specifies where to <a
-href="CheckersGame.html#M000004">move</a> it if the <a
-href="CheckersGame.html#M000004">move</a> is legal, the game state is
+href="CheckersGame.html#M000008">move</a> and to specifies where to <a
+href="CheckersGame.html#M000008">move</a> it if the <a
+href="CheckersGame.html#M000008">move</a> is legal, the game state is
 changed accordingly and the method returns 0. For example:
 </p>
 <pre>
@@ -374,15 +355,60 @@ To
       a | b |   | b |   | b |   | b |   |
         +---+---+---+---+---+---+---+---+
           1   2   3   4   5   6   7   8
-      Errors: The return value is the sum of the error values listed below:
-      *1:          From coordinates are out of bounds
-      *2:          From coordinates are not a black square
-      *4:          To coordinates are out of bounds
-      *8:          To coordinates are not a black square
-      *16: From coordinates don't contain current player's piece
-      *32: To coordinates are already occupied
-      *64: To coordinates cannot be moved to
+      Errors:
+      IndexError:          From coordinates are out of bounds
+      IndexError:          From coordinates are not a black square
+      IndexError:          To coordinates are out of bounds
+      IndexError:          To coordinates are not a black square
+      ArgumentError:       From coordinates don't contain current player's piece
+      ArgumentError:       To coordinates are already occupied
+      ArgumentError:       To coordinates cannot be moved to using a legal, implemented move
 </pre>
+        </div>
+      </div>
+
+      <div id="method-M000006" class="method-detail">
+        <a name="M000006"></a>
+
+        <div class="method-heading">
+          <a href="CheckersGame.src/M000006.html" target="Code" class="method-signature"
+            onclick="popupCode('CheckersGame.src/M000006.html');return false;">
+          <span class="method-name">place</span><span class="method-args">(row,col,color,kinged)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This places a piece onto the Checker&#8216;s board. It is not recomended to
+do this for any reason other than testing. <em>row</em> and <em>col</em>
+are valid keys for CheckersGame::ROW_LOOKUP and CheckersGame::COLUMN_LOOKUP
+respectively. <em>color</em> is one of CheckersGame::BlackSquare::RED,
+CheckersGame::BlackSquare::BLACK or CheckersGame::BlackSquare::BLANK.
+<em>kinged</em> is true or false depending on if the piece is kinged or
+not. Raises IndexError if the supplied indices are invalid or correspond to
+a red (unplayable) square on the board.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000005" class="method-detail">
+        <a name="M000005"></a>
+
+        <div class="method-heading">
+          <a href="CheckersGame.src/M000005.html" target="Code" class="method-signature"
+            onclick="popupCode('CheckersGame.src/M000005.html');return false;">
+          <span class="method-name">remove</span><span class="method-args">(row,col)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This removes a piece from the Checker&#8216;s board. It is not recomended
+to do this for any reason other than testing. <em>row</em> and <em>col</em>
+are valid keys for CheckersGame::ROW_LOOKUP and CheckersGame::COLUMN_LOOKUP
+respectively. Raises IndexError if the supplied indices are invalid or
+correspond to a red (unplayable) square on the board.
+</p>
         </div>
       </div>
 
@@ -421,6 +447,24 @@ Output looks something like:
        +---+---+---+---+---+---+---+---+
          1   2   3   4   5   6   7   8
 </pre>
+        </div>
+      </div>
+
+      <div id="method-M000007" class="method-detail">
+        <a name="M000007"></a>
+
+        <div class="method-heading">
+          <a href="CheckersGame.src/M000007.html" target="Code" class="method-signature"
+            onclick="popupCode('CheckersGame.src/M000007.html');return false;">
+          <span class="method-name">toggle_turn</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This changes whose turn it is. Should not be used except during debugging
+or testing
+</p>
         </div>
       </div>
 

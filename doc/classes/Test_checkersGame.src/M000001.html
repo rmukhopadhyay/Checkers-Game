@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_BlackSquare (Test_checkersGame)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test_checkersGame.rb, line 5</span>
+        <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_BlackSquare</span>
+                <span class="ruby-comment cmt">#test a failure</span>
+                <span class="ruby-identifier">assert_raise</span>(<span class="ruby-constant">ArgumentError</span>)\
+                        {<span class="ruby-identifier">mysquare</span>=<span class="ruby-constant">CheckersGame</span><span class="ruby-operator">::</span><span class="ruby-constant">BlackSquare</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">'*'</span>,<span class="ruby-keyword kw">false</span>)}
+                <span class="ruby-comment cmt">#test correct initialization</span>
+                <span class="ruby-identifier">assert_nothing_raised</span>(<span class="ruby-constant">ArgumentError</span>)\
+                        {<span class="ruby-identifier">mysquare</span>=<span class="ruby-constant">CheckersGame</span><span class="ruby-operator">::</span><span class="ruby-constant">BlackSquare</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">CheckersGame</span><span class="ruby-operator">::</span><span class="ruby-constant">BlackSquare</span><span class="ruby-operator">::</span><span class="ruby-constant">BLACK</span>,<span class="ruby-keyword kw">false</span>)}
+                <span class="ruby-identifier">mysquare</span>=<span class="ruby-constant">CheckersGame</span><span class="ruby-operator">::</span><span class="ruby-constant">BlackSquare</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">CheckersGame</span><span class="ruby-operator">::</span><span class="ruby-constant">BlackSquare</span><span class="ruby-operator">::</span><span class="ruby-constant">BLACK</span>,<span class="ruby-keyword kw">false</span>)
+                <span class="ruby-identifier">assert_equal</span>(<span class="ruby-constant">CheckersGame</span><span class="ruby-operator">::</span><span class="ruby-constant">BlackSquare</span><span class="ruby-operator">::</span><span class="ruby-constant">BLACK</span>,<span class="ruby-identifier">mysquare</span>.<span class="ruby-identifier">color</span>)
+                <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword kw">false</span>,<span class="ruby-identifier">mysquare</span>.<span class="ruby-identifier">kinged</span>)
+                <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value str">'Black'</span>,<span class="ruby-identifier">mysquare</span>.<span class="ruby-identifier">to_s</span>)
+                <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value str">'b'</span>,<span class="ruby-identifier">mysquare</span>.<span class="ruby-identifier">to_c</span>)
+        <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

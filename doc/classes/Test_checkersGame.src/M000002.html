@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_initialization (Test_checkersGame)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test_checkersGame.rb, line 19</span>
+        <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_initialization</span>
+                <span class="ruby-identifier">mygame</span>=<span class="ruby-constant">CheckersGame</span>.<span class="ruby-identifier">new</span>
+                <span class="ruby-identifier">assert_not_nil</span>(<span class="ruby-identifier">mygame</span>,<span class="ruby-value str">'Failed to instantiate a game'</span>)
+                <span class="ruby-identifier">assert_equal</span>(<span class="ruby-constant">CheckersGame</span><span class="ruby-operator">::</span><span class="ruby-constant">BlackSquare</span><span class="ruby-operator">::</span><span class="ruby-constant">BLACK</span>,<span class="ruby-identifier">mygame</span>.<span class="ruby-identifier">whose_turn</span>,<span class="ruby-value str">'Wrong initial player'</span>)
+                <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value str">&quot;  +---+---+---+---+---+---+---+---+\nh |   | r |   | r |   | r |   | r | \n  +---+---+---+---+---+---+---+---+\ng | r |   | r |   | r |   | r |   | \n  +---+---+---+---+---+---+---+---+\nf |   | r |   | r |   | r |   | r | \n  +---+---+---+---+---+---+---+---+\ne | . |   | . |   | . |   | . |   | \n  +---+---+---+---+---+---+---+---+\nd |   | . |   | . |   | . |   | . | \n  +---+---+---+---+---+---+---+---+\nc | b |   | b |   | b |   | b |   | \n  +---+---+---+---+---+---+---+---+\nb |   | b |   | b |   | b |   | b | \n  +---+---+---+---+---+---+---+---+\na | b |   | b |   | b |   | b |   | \n  +---+---+---+---+---+---+---+---+\n    1   2   3   4   5   6   7   8 \n&quot;</span>,<span class="ruby-identifier">mygame</span>.<span class="ruby-identifier">to_s</span>)
+                <span class="ruby-comment cmt">#Initially, the board should look like:</span>
+                <span class="ruby-comment cmt">#       +---+---+---+---+---+---+---+---+</span>
+                <span class="ruby-comment cmt">#     h |   | r |   | r |   | r |   | r | </span>
+                <span class="ruby-comment cmt">#       +---+---+---+---+---+---+---+---+</span>
+                <span class="ruby-comment cmt">#     g | r |   | r |   | r |   | r |   | </span>
+                <span class="ruby-comment cmt">#       +---+---+---+---+---+---+---+---+</span>
+                <span class="ruby-comment cmt">#     f |   | r |   | r |   | r |   | r | </span>
+                <span class="ruby-comment cmt">#       +---+---+---+---+---+---+---+---+</span>
+                <span class="ruby-comment cmt">#     e | . |   | . |   | . |   | . |   | </span>
+                <span class="ruby-comment cmt">#       +---+---+---+---+---+---+---+---+</span>
+                <span class="ruby-comment cmt">#     d |   | . |   | . |   | . |   | . | </span>
+                <span class="ruby-comment cmt">#       +---+---+---+---+---+---+---+---+</span>
+                <span class="ruby-comment cmt">#     c | b |   | b |   | b |   | b |   | </span>
+                <span class="ruby-comment cmt">#       +---+---+---+---+---+---+---+---+</span>
+                <span class="ruby-comment cmt">#     b |   | b |   | b |   | b |   | b | </span>
+                <span class="ruby-comment cmt">#       +---+---+---+---+---+---+---+---+</span>
+                <span class="ruby-comment cmt">#     a | b |   | b |   | b |   | b |   | </span>
+                <span class="ruby-comment cmt">#       +---+---+---+---+---+---+---+---+</span>
+                <span class="ruby-comment cmt">#             1   2   3   4   5   6   7   8 </span>
+        <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>
