@@ -2,17 +2,17 @@ require 'test/unit'
 require 'checkersGame.rb'
 
 class Test_checkersGame < Test::Unit::TestCase
-	def test_BlackSquare_error
+	def test_Square_error
 		#test a failure
 		assert_raise(ArgumentError)\
-			{mysquare=CheckersGame::BlackSquare.new('*',false)}
+			{mysquare=CheckersGame::Square.new('*',false)}
 	end
-	def test_BlackSquare_initialization
+	def test_Square_initialization
 		#test correct initialization
 		assert_nothing_raised(ArgumentError)\
-			{mysquare=CheckersGame::BlackSquare.new(CheckersGame::BlackSquare::BLACK,false)}
-		mysquare=CheckersGame::BlackSquare.new(CheckersGame::BlackSquare::BLACK,false)
-		assert_equal(CheckersGame::BlackSquare::BLACK,mysquare.color)
+			{mysquare=CheckersGame::Square.new(CheckersGame::Square::BLACK,false)}
+		mysquare=CheckersGame::Square.new(CheckersGame::Square::BLACK,false)
+		assert_equal(CheckersGame::Square::BLACK,mysquare.color)
 		assert_equal(false,mysquare.kinged)
 		assert_equal('Black',mysquare.to_s)
 		assert_equal('b',mysquare.to_c)
@@ -55,9 +55,9 @@ class Test_checkersGame < Test::Unit::TestCase
 	def test_indexing
 		#test each square
 		mygame=CheckersGame.new
-		b=CheckersGame::BlackSquare::BLACK
-		r=CheckersGame::BlackSquare::RED
-		x=CheckersGame::BlackSquare::BLANK
+		b=CheckersGame::Square::BLACK
+		r=CheckersGame::Square::RED
+		x=CheckersGame::Square::BLANK
 		init_gameboard=[	[b, nil, b, nil, b, nil, b, nil], \
 							[nil, b, nil, b, nil, b, nil, b], \
 							[b, nil, b, nil, b, nil, b, nil], \
@@ -88,11 +88,11 @@ class Test_checkersGame < Test::Unit::TestCase
 		assert_not_equal(CheckersGame.new,mygame)
 	end
 	def test_remove
-		assert_equal(CheckersGame::BlackSquare::BLANK,CheckersGame.new.remove('c','3')['c','3'].color)
+		assert_equal(CheckersGame::Square::BLANK,CheckersGame.new.remove('c','3')['c','3'].color)
 	end
 	def test_place
-		assert_equal(CheckersGame::BlackSquare::RED,\
-			CheckersGame.new.place('c','3',CheckersGame::BlackSquare::RED,false)['c','3'].color)
+		assert_equal(CheckersGame::Square::RED,\
+			CheckersGame.new.place('c','3',CheckersGame::Square::RED,false)['c','3'].color)
 	end
 	#Since remove is just a call to place, this tests errors for both functions
 	def test_remove_errors
@@ -108,7 +108,7 @@ class Test_checkersGame < Test::Unit::TestCase
 			assert_equal(\
 				CheckersGame.new.remove('c',black_columns[i]).\
 				place('d',String(Integer(black_columns[i])+1),\
-				CheckersGame::BlackSquare::BLACK,false).toggle_turn,\
+				CheckersGame::Square::BLACK,false).toggle_turn,\
 				mygame.move('c'+black_columns[i],'d'+String(Integer(black_columns[i])+1)))
 		end
 	end
@@ -142,7 +142,7 @@ class Test_checkersGame < Test::Unit::TestCase
 			assert_equal(\
 				CheckersGame.new.move('c3','d4').remove('f',red_columns[i]).\
 				place('e',String(Integer(red_columns[i])-1),\
-				CheckersGame::BlackSquare::RED,false).toggle_turn,\
+				CheckersGame::Square::RED,false).toggle_turn,\
 				mygame.move('f'+red_columns[i],'e'+String(Integer(red_columns[i])-1)))
 		end
 	end
@@ -216,7 +216,7 @@ class Test_checkersGame < Test::Unit::TestCase
 		mygame=CheckersGame.new
 		assert_nothing_raised(ArgumentError){mygame.move('c5','d6')}
 		assert_equal(CheckersGame.new.remove('c','5').\
-			place('d','6',CheckersGame::BlackSquare::BLACK,false).toggle_turn,mygame)
+			place('d','6',CheckersGame::Square::BLACK,false).toggle_turn,mygame)
 	end
 	def test_erroneous_moves_ArgumentError_2
 		#Test testing that From coordinates contain player's piece
@@ -258,6 +258,32 @@ class Test_checkersGame < Test::Unit::TestCase
 		assert_raise(ArgumentError){mygame.move('c3','d6')}
 		assert_raise(ArgumentError){mygame.move('c5','e5')}
 		assert_raise(ArgumentError){mygame.move('c7','d2')}
+		
+	end
+	#Test detection of a single capture move
+	def test_single_capture
+		mygame=CheckersGame.new
+		mygame.move('c3','d4').move('f6','e5')
+		#  +---+---+---+---+---+---+---+---+
+		#	h |   | r |   | r |   | r |   | r | 
+		#	  +---+---+---+---+---+---+---+---+
+		#	g | r |   | r |   | r |   | r |   | 
+		#	  +---+---+---+---+---+---+---+---+
+		#	f |   | r |   | r |   | . |   | r | 
+		#	  +---+---+---+---+---+---+---+---+
+		#	e | . |   | . |   | r |   | . |   | 
+		#	  +---+---+---+---+---+---+---+---+
+		#	d |   | . |   | b |   | . |   | . | 
+		#	  +---+---+---+---+---+---+---+---+
+		#	c | b |   | . |   | b |   | b |   | 
+		#	  +---+---+---+---+---+---+---+---+
+		#	b |   | b |   | b |   | b |   | b | 
+		#	  +---+---+---+---+---+---+---+---+
+		#	a | b |   | b |   | b |   | b |   | 
+		#	  +---+---+---+---+---+---+---+---+
+		#		1   2   3   4   5   6   7   8 
+		mygame.move('d4','f6')
+		#assert_equal(CheckersGame.new.remove('c','3').place('f','6',CheckersGame::Square::BLACK,false).toggle_turn,mygame)
 		
 	end
 end

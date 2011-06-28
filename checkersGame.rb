@@ -6,7 +6,7 @@
 #of the piece you want to move and the coordinates (as a string) 
 #of the location you want to move it to.  
 #The labels of the rows and columns are the keys of the dictionaries 
-#CheckersGame::ROW_LOOKUP and CheckersGame::COLUMN_LOOKUP.  
+#ROW_LOOKUP and COLUMN_LOOKUP.  
 #They are presently set so that rows are labelled from a to h going away 
 #from the black player and from 1 to 8 from left to right.  On 
 #initialization, the board looks like:
@@ -49,21 +49,21 @@ class CheckersGame
 				if((i+j)%2==0)	#Black (playable) square
 					if(i<NUM_INIT_ROWS)	
 						#place a black checker
-						@gameboard[i][j]=BlackSquare.new(BlackSquare::BLACK,false)
+						@gameboard[i][j]=Square.new Square::BLACK
 					elsif(i>=BOARD_SIZE-NUM_INIT_ROWS)	
 						#place a red checker
-						@gameboard[i][j]=BlackSquare.new(BlackSquare::RED,false)
+						@gameboard[i][j]=Square.new Square::RED
 					else
 						#Square is legal but unoccupied
-						@gameboard[i][j]=BlackSquare.new(BlackSquare::BLANK,false)
+						@gameboard[i][j]=Square.new
 					end
 				end
 			end
 		end		
 		#Without loss of generality, black goes first
-		@whose_turn=BlackSquare::BLACK
+		@whose_turn=Square::BLACK
 	end
-	#Returns CheckersGame::BlackSquare::RED or CheckersGame::BlackSquare::BLACK depending on 
+	#Returns Square::RED or Square::BLACK depending on 
 	#whose turn it is.
 	attr_reader :whose_turn
 	
@@ -111,9 +111,9 @@ class CheckersGame
 		board+="\n"
 		return board
 	end
-	#Returns a copy of the CheckersGame::BlackSquare object that is at the specified 
+	#Returns a copy of the Square object that is at the specified 
 	#row and column of the board.  _row_ and _column_ are single letter strings from 
-	#the sets CheckersGame::ROW_LOOKUP.keys and CheckersGame::COLUMN_LOOKUP.keys 
+	#the sets ROW_LOOKUP.keys and COLUMN_LOOKUP.keys 
 	#(presently, a-h 1-8 respectively).  Returns nil for unplayable (red) squares.
 	#Raises IndexError if index is invalid.  
 	def [](row,column)
@@ -121,7 +121,7 @@ class CheckersGame
 		column_number=COLUMN_LOOKUP[column]
 		if(row_number && column_number)
 			if(square=@gameboard[row_number][column_number])
-				return BlackSquare.new(@gameboard[row_number][column_number].color,@gameboard[row_number][column_number].kinged)
+				return Square.new(@gameboard[row_number][column_number].color,@gameboard[row_number][column_number].kinged)
 			else
 				return nil
 			end
@@ -141,18 +141,18 @@ class CheckersGame
 		return @whose_turn==other.whose_turn
 	end
 	#This removes a piece from the Checker's board.  It is not recomended to do this for any 
-	#reason other than testing.  _row_ and _col_ are valid keys for CheckersGame::ROW_LOOKUP 
-	#and CheckersGame::COLUMN_LOOKUP respectively.  Raises IndexError if the supplied indices 
+	#reason other than testing.  _row_ and _col_ are valid keys for ROW_LOOKUP 
+	#and COLUMN_LOOKUP respectively.  Raises IndexError if the supplied indices 
 	#are invalid or correspond to a red (unplayable) square on the board.  
 	def remove(row,col)
-		place(row,col,BlackSquare::BLANK,false)
+		place(row,col,Square::BLANK,false)
 	end
 	
 	#This places a piece onto the Checker's board.  It is not recomended to do this for any 
-	#reason other than testing.  _row_ and _col_ are valid keys for CheckersGame::ROW_LOOKUP 
-	#and CheckersGame::COLUMN_LOOKUP respectively.  _color_ is one of 
-	#CheckersGame::BlackSquare::RED, CheckersGame::BlackSquare::BLACK or 
-	#CheckersGame::BlackSquare::BLANK.  _kinged_ is true or false depending on if the 
+	#reason other than testing.  _row_ and _col_ are valid keys for ROW_LOOKUP 
+	#and COLUMN_LOOKUP respectively.  _color_ is one of 
+	#Square::RED, Square::BLACK or 
+	#Square::BLANK.  _kinged_ is true or false depending on if the 
 	#piece is kinged or not.  
 	#Raises IndexError if the supplied indices 
 	#are invalid or correspond to a red (unplayable) square on the board.  
@@ -160,7 +160,7 @@ class CheckersGame
 		row_number=ROW_LOOKUP[row]
 		column_number=COLUMN_LOOKUP[col]
 		if (row_number && column_number && ((row_number+column_number)%2==0))
-			@gameboard[row_number][column_number]=BlackSquare.new(color,kinged)
+			@gameboard[row_number][column_number]=Square.new(color,kinged)
 		else
 			raise IndexError
 		end
@@ -168,8 +168,11 @@ class CheckersGame
 	end
 	#This changes whose turn it is.  Should not be used except during debugging or testing
 	def toggle_turn
-		@whose_turn=(@whose_turn==BlackSquare::BLACK ? BlackSquare::RED : BlackSquare::BLACK)
+		@whose_turn=other_player
 		return self
+	end
+	def other_player
+		@whose_turn==Square::BLACK ? Square::RED : Square::BLACK
 	end
 
 	#from and to are strings where the first letter is a row and the 
@@ -250,40 +253,38 @@ class CheckersGame
 
 		#Check that To coordinates are unoccupied
 		raise(ArgumentError,'To coordinates are occupied') \
-			unless (@gameboard[to_row][to_column].color==BlackSquare::BLANK)
+			unless (@gameboard[to_row][to_column].color==Square::BLANK)
 		
-		#detect a standard move for non-king pieces: 
-		#up-left or up-right for black
-		#down-left or down-right for red
-		next_row=(@whose_turn==BlackSquare::BLACK ? from_row+1 : from_row-1)
-		if(next_row==to_row && (to_column-from_column).abs==1)
-			#legal standard move
-			#assume garbage collection will take care of lost reference soon
-			@gameboard[to_row][to_column]=@gameboard[from_row][from_column]
-			@gameboard[from_row][from_column]=BlackSquare.new(BlackSquare::BLANK,false)
-			#toggle the state of whose_turn
-			@whose_turn=(@whose_turn==BlackSquare::BLACK ? BlackSquare::RED : BlackSquare::BLACK)
-			#Detected Allowed move
-			return self
+		if (! ((@whose_turn==Square::BLACK ? from_row+1 : from_row-1) ==
+				to_row && (to_column-from_column).abs==1 || 
+				( ((to_row - from_row).abs == 2) && ((to_column - from_column).abs == 2) && \
+				@gameboard[from_row+((to_row-from_row)<=>0)][from_column+((to_column-from_column)<=>0)].color==other_player)))
+			raise ArgumentError, 'Relative positions of from and to squares are not legal' # TODO add some info
 		end
-		#No rule matching proposed move is found
-		raise(ArgumentError,'Proposed Move is not allowed')
+		
+		@gameboard[to_row][to_column]=@gameboard[from_row][from_column]
+		@gameboard[from_row][from_column]=Square.new
+		if((to_column-from_column).abs==2)
+			@gameboard[to_row+((to_row-from_row)<=>0)][to_column+((to_column-from_column)<=>0)]=Square.new
+		end
+		toggle_turn
+		return self
 	end
 	#Stores the state of the black (playable) checkers squares.  
-	#Attribute _color_ is either CheckersGame::BlackSquare::BLACK_, 
-	#CheckersGame::BlackSquare::RED or CheckersGame::BlackSquare::BLANK.  
+	#Attribute _color_ is either Square::BLACK_, 
+	#Square::RED or Square::BLANK.  
 	#Attribute _kinged_ is either true or false depending on whether or 
 	#not the piece in the current square is kinged.  
-	class BlackSquare
+	class Square
 		BLACK='b'
 		RED='r'
 		BLANK='.'
 		#Accepts a color and a boolean that indicates whether or not the 
 		#current piece is a king.
 		#Raises ArgumentError if given a color other than 
-		#CheckersGame::BlackSquare::BLACK, CheckersGame::BlackSquare::RED or 
-		#CheckersGame::BlackSquare::BLANK.  
-		def initialize(color,kinged)
+		#Square::BLACK, Square::RED or 
+		#Square::BLANK.  
+		def initialize(color=Square::BLANK,kinged=false)
 			if(color!=BLACK&&color!=RED&&color!=BLANK)
 				raise ArgumentError, "#{color} is not a valid color"
 			end
@@ -307,7 +308,7 @@ class CheckersGame
 		attr_reader :color
 		#True if the piece is non-blank and a King
 		attr_reader :kinged
-		#Tests for equality of BlackSquare state
+		#Tests for equality of Square state
 		def ==(other)
 			return (@color==other.color)&&(@kinged==other.kinged)
 		end
